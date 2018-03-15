@@ -48,7 +48,7 @@ class MyApplication(QtGui.QMainWindow):
 
     def __init__(self, parent=None):
         """Initializes"""
-        QtGui.QMainWindow.__init__(self, parent)
+        QtGui.QMainWindow.__init__(self, parent)                
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
@@ -65,6 +65,14 @@ class MyApplication(QtGui.QMainWindow):
             self.array_value += 0.01
         self.connect_handlers()
         self.setup_widgets()
+
+        # assign hotkeys shortcuts
+        self.connect(QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.CTRL + QtCore.Qt.Key_Period), self),
+         QtCore.SIGNAL('activated()'), self.increase_value_pbr)
+
+        self.connect(QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.CTRL + QtCore.Qt.Key_Comma), self),
+         QtCore.SIGNAL('activated()'), self.decrease_value_pbr)    
+        
 
     def setup_widgets(self):
         """connects the form widgets with functions"""
@@ -154,6 +162,20 @@ class MyApplication(QtGui.QMainWindow):
         self.ui.secondary_green.valueChanged[int].\
             connect(self.change_value_sg)
 
+    
+    
+
+    def increase_value_pbr(self):
+        value = self.ui.primary_brightness.value()
+        self.change_value_pbr(min(99,value + 10))
+        self.ui.primary_brightness.setProperty("value",min(99,value + 10))
+
+    def decrease_value_pbr(self):
+        value = self.ui.primary_brightness.value()
+        self.change_value_pbr(max(5,value - 10))
+        self.ui.primary_brightness.setProperty("value",max(5,value - 10))        
+
+
     def change_value_pbr(self, value):
         """Changes Primary Display Brightness"""
         cmd_value = "xrandr\
@@ -164,7 +186,7 @@ class MyApplication(QtGui.QMainWindow):
              self.values[value],
              self.values[self.ui.primary_red.value()],
              self.values[self.ui.primary_green.value()],
-             self.values[self.ui.primary_blue.value()])
+             self.values[self.ui.primary_blue.value()])        
         Executor.execute_command(cmd_value)
 
     def change_value_pr(self, value):
@@ -219,7 +241,7 @@ class MyApplication(QtGui.QMainWindow):
              self.values[value],
              self.values[self.ui.secondary_red.value()],
              self.values[self.ui.secondary_green.value()],
-             self.values[self.ui.secondary_blue.value()])
+             self.values[self.ui.secondary_blue.value()])        
         Executor.execute_command(cmd_value)
 
     def change_value_sr(self, value):
