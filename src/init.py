@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
@@ -72,7 +71,7 @@ class MyApplication(QtGui.QMainWindow):
          QtCore.SIGNAL('activated()'), self.increase_value_pbr)
 
         self.connect(QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.CTRL + QtCore.Qt.Key_Comma), self),
-         QtCore.SIGNAL('activated()'), self.decrease_value_pbr)    
+         QtCore.SIGNAL('activated()'), self.decrease_value_pbr)
         
 
     def setup_widgets(self):
